@@ -1,0 +1,27 @@
+{
+  "name": "realtime-translator-backend",
+  "version": "1.0.0",
+  "main": "dist/main/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/main/server.ts",
+    "build": "tsc",
+    "start": "node dist/main/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.22.1",
+    "pg": "^8.20.0",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.19.15",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
