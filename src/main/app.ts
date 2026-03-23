@@ -16,6 +16,7 @@ import { createSessionRoutes } from '../modules/session/routes/session.routes';
 
 import { FakeTranslationProvider } from '../modules/voice/providers/translation/fake-translation.provider';
 import { ChatGateway } from '../modules/chat/gateways/chat.gateway';
+import { dbPool } from '../shared/database/postgres';
 
 export function createApp() {
   const app = express();
@@ -30,9 +31,9 @@ export function createApp() {
     },
   });
 
-  const sessionRepository = new SessionRepository();
-  const participantRepository = new ParticipantRepository();
-  const chatRepository = new ChatRepository();
+  const sessionRepository = new SessionRepository(dbPool);
+  const participantRepository = new ParticipantRepository(dbPool);
+  const chatRepository = new ChatRepository(dbPool);
 
   const sessionService = new SessionService(sessionRepository);
   const participantService = new ParticipantService(participantRepository);

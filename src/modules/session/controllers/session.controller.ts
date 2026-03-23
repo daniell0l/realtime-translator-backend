@@ -8,47 +8,67 @@ export class SessionController {
     private readonly participantService: ParticipantService,
   ) {}
 
-  createSession = (request: Request, response: Response): void => {
-    const { mode } = request.body;
+  createSession = async (request: Request, response: Response): Promise<void> => {
+    try {
+      const { mode } = request.body;
+      const session = await this.sessionService.createSession({ mode });
 
-    const session = this.sessionService.createSession({ mode });
-
-    response.status(201).json(session);
-  };
-
-  joinSession = (request: Request, response: Response): void => {
-    const { sessionCode, participant } = request.body;
-
-    const session = this.sessionService.findByCode(sessionCode);
-
-    if (!session) {
-      response.status(404).json({ message: 'Sala não encontrada.' });
-      return;
+      response.status(201).json(session);
+    } catch (error) {
+      response.status(500).json({
+        message: error instanceof Error ? error.message : 'Erro ao criar sessao.',
+      });
     }
-
-    const createdParticipant = this.participantService.createParticipant({
-      sessionId: session.id,
-      name: participant.name,
-      speakLocale: participant.speakLocale,
-      listenLocale: participant.listenLocale,
-      speakCountry: participant.speakCountry,
-      listenCountry: participant.listenCountry,
-    });
-
-    response.status(200).json({
-      session,
-      participant: createdParticipant,
-      participants: this.participantService.listBySessionId(session.id),
-    });
   };
 
-  getSessionParticipants = (request: Request, response: Response): void => {
-    const { sessionId } = request.params;
+  joinSession = async (request: Request, response: Response): Promise<void> => {
+    try {
+      const { sessionCode, participant } = request.body;
 
-    const participants = this.participantService.listBySessionId(
-      Array.isArray(sessionId) ? sessionId[0] : sessionId,
-    );
+      const session = await this.sessionService.findByCode(sessionCode);
 
-    response.status(200).json(participants);
+      if (!session) {
+        response.status(404).json({ message: 'Sala nao encontrada.' });
+        return;
+      }
+
+      const createdParticipant = await this.participantService.createParticipant({
+        sessionId: session.id,
+        name: participant.name,
+        speakLocale: participant.speakLocale,
+        listenLocale: participant.listenLocale,
+        speakCountry: participant.speakCountry,
+        listenCountry: participant.listenCountry,
+      });
+
+      const participants = await this.participantService.listBySessionId(session.id);
+
+      response.status(200).json({
+        session,
+        participant: createdParticipant,
+        participants,
+      });
+    } catch (error) {
+      response.status(500).json({
+        message: error instanceof Error ? error.message : 'Erro ao entrar na sessao.',
+      });
+    }
+  };
+
+  getSessionParticipants = async (
+    request: Request,
+    response: Response,
+  ): Promise<void> => {
+    try {
+      const { sessionId } = request.params;
+      const normalizedSessionId = Array.isArray(sessionId) ? sessionId[0] : sessionId;
+      const participants = await this.participantService.listBySessionId(normalizedSessionId);
+
+      response.status(200).json(participants);
+    } catch (error) {
+      response.status(500).json({
+        message: error instanceof Error ? error.message : 'Erro ao listar participantes.',
+      });
+    }
   };
 }

@@ -1,32 +1,90 @@
-import { SessionEntity } from '../entities/session.entity'
+import { Pool } from 'pg';
+import { SessionEntity } from '../entities/session.entity';
+import { SessionMode } from '../../../shared/types/session-mode';
+import { SessionStatus } from '../../../shared/types/session-status';
+import { ISessionRepository } from './session-repository.interface';
+import {
+  CREATE_SESSION_QUERY,
+  FIND_SESSION_BY_CODE_QUERY,
+  FIND_SESSION_BY_ID_QUERY,
+  LIST_SESSIONS_QUERY,
+  UPDATE_SESSION_QUERY,
+} from './session.queries';
 
-export class SessionRepository {
-  private sessions: SessionEntity[] = [];
+interface SessionRow {
+  id: string;
+  code: string;
+  mode: SessionMode;
+  status: SessionStatus;
+  created_at: Date;
+}
 
-  create(session: SessionEntity): SessionEntity {
-    this.sessions.push(session);
-    return session;
+export class SessionRepository implements ISessionRepository {
+  constructor(private readonly db: Pool) {}
+
+  private mapRowToEntity(row: SessionRow): SessionEntity {
+    return new SessionEntity(
+      row.id,
+      row.code,
+      row.mode,
+      row.status,
+      new Date(row.created_at),
+    );
   }
 
-  findByCode(code: string): SessionEntity | undefined {
-    return this.sessions.find((session) => session.code === code);
+  async create(session: SessionEntity): Promise<SessionEntity> {
+    const { rows } = await this.db.query<SessionRow>(CREATE_SESSION_QUERY, [
+      session.id,
+      session.code,
+      session.mode,
+      session.status,
+      session.createdAt,
+    ]);
+
+    return this.mapRowToEntity(rows[0]);
   }
 
-  findById(id: string): SessionEntity | undefined {
-    return this.sessions.find((session) => session.id === id);
-  }
+  async findByCode(code: string): Promise<SessionEntity | undefined> {
+    const { rows } = await this.db.query<SessionRow>(FIND_SESSION_BY_CODE_QUERY, [
+      code,
+    ]);
 
-  update(updatedSession: SessionEntity): SessionEntity {
-    const index = this.sessions.findIndex((session) => session.id === updatedSession.id);
-
-    if (index >= 0) {
-      this.sessions[index] = updatedSession;
+    if (rows.length === 0) {
+      return undefined;
     }
 
-    return updatedSession;
+    return this.mapRowToEntity(rows[0]);
   }
 
-  list(): SessionEntity[] {
-    return this.sessions;
+  async findById(id: string): Promise<SessionEntity | undefined> {
+    const { rows } = await this.db.query<SessionRow>(FIND_SESSION_BY_ID_QUERY, [id]);
+
+    if (rows.length === 0) {
+      return undefined;
+    }
+
+    return this.mapRowToEntity(rows[0]);
+  }
+
+  async update(updatedSession: SessionEntity): Promise<SessionEntity> {
+    const { rows } = await this.db.query<SessionRow>(UPDATE_SESSION_QUERY, [
+      updatedSession.id,
+      updatedSession.code,
+      updatedSession.mode,
+      updatedSession.status,
+      updatedSession.createdAt,
+    ]);
+
+    if (rows.length === 0) {
+      return updatedSession;
+    }
+
+    return this.mapRowToEntity(rows[0]);
+  }
+
+  async list(): Promise<SessionEntity[]> {
+    const { rows } = await this.db.query<SessionRow>(LIST_SESSIONS_QUERY);
+
+    return rows.map((row) => this.mapRowToEntity(row));
   }
 }
