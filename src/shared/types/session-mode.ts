@@ -1,1 +1,0 @@
-export type SessionMode = 'chat' | 'voice' | 'hybrid';

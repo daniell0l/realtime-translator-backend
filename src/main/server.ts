@@ -1,16 +1,15 @@
 import 'dotenv/config';
 import { createApp } from './app';
-import { closeDatabase, initializeDatabase } from '../shared/database/postgres';
-
-const PORT = Number(process.env.PORT ?? 3333);
+import { env } from '../shared/config/env';
+import { closeDatabase, initializeDatabase } from '../shared/db';
 
 async function bootstrap(): Promise<void> {
   await initializeDatabase();
 
   const { server } = createApp();
 
-  server.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+  server.listen(env.app.port, () => {
+    console.log(`Servidor rodando na porta ${env.app.port}`);
   });
 
   const shutdown = (signal: NodeJS.Signals): void => {
