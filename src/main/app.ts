@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import { createSessionRoutes } from '../domain/session/presentation/http/routes/session.routes';
+import { createSessionRoutes } from '../modules/session/presentation/http/routes/session.routes';
 import { createContainer } from './container';
 
 export function createApp(): {

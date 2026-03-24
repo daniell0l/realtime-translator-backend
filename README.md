@@ -9,7 +9,7 @@ src/
   main/                              # app/server/container e adapters
   database/
     migrations/                      # migrations versionadas
-  domain/
+  modules/
     session/
       entities/
       repositories/

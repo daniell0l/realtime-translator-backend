@@ -30,8 +30,8 @@ export const env = {
     port: parseNumber(process.env.PORT, 3333),
   },
   db: {
-    host: process.env.DB_HOST ?? 'localhost',
-    port: parseNumber(process.env.DB_PORT, 5432),
+    host: process.env.DB_HOST ?? '127.0.0.1',
+    port: parseNumber(process.env.DB_PORT, 5433),
     name: process.env.DB_NAME ?? 'realtime_translator',
     user: getRequiredEnv('DB_USER'),
     password: getRequiredEnv('DB_PASSWORD'),
