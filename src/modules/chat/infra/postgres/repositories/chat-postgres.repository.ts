@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
-import { ChatMessageEntity } from '../../../entities/chat-message.entity';
-import { IChatRepository } from '../../../repositories/chat-repository.interface';
+import { ChatMessageEntity } from '../../../domain/entities/chat-message.entity';
+import { IChatRepository } from '../../../domain/repositories/chat-repository.interface';
 import {
   CREATE_CHAT_MESSAGE_QUERY,
   FIND_CHAT_MESSAGES_BY_SESSION_ID_QUERY,

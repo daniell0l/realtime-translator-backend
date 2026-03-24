@@ -1,16 +1,16 @@
 import { Server } from 'socket.io';
 import { dbPool } from '../shared/db';
-import { SessionRepositoryFactory } from '../modules/session/repositories/factories/SessionRepositoryFactory';
-import { ParticipantRepositoryFactory } from '../modules/participant/repositories/factories/ParticipantRepositoryFactory';
-import { ChatRepositoryFactory } from '../modules/chat/repositories/factories/ChatRepositoryFactory';
-import { CreateSessionUseCaseFactory } from '../modules/session/useCases/factories/CreateSessionUseCaseFactory';
-import { FindSessionByCodeUseCaseFactory } from '../modules/session/useCases/factories/FindSessionByCodeUseCaseFactory';
-import { CreateParticipantUseCaseFactory } from '../modules/participant/useCases/factories/CreateParticipantUseCaseFactory';
-import { ListParticipantsBySessionUseCaseFactory } from '../modules/participant/useCases/factories/ListParticipantsBySessionUseCaseFactory';
+import { SessionRepositoryFactory } from '../modules/session/infra/factories/SessionRepositoryFactory';
+import { ParticipantRepositoryFactory } from '../modules/participant/infra/factories/ParticipantRepositoryFactory';
+import { ChatRepositoryFactory } from '../modules/chat/infra/factories/ChatRepositoryFactory';
+import { CreateSessionUseCaseFactory } from '../modules/session/application/use-cases/factories/CreateSessionUseCaseFactory';
+import { FindSessionByCodeUseCaseFactory } from '../modules/session/application/use-cases/factories/FindSessionByCodeUseCaseFactory';
+import { CreateParticipantUseCaseFactory } from '../modules/participant/application/use-cases/factories/CreateParticipantUseCaseFactory';
+import { ListParticipantsBySessionUseCaseFactory } from '../modules/participant/application/use-cases/factories/ListParticipantsBySessionUseCaseFactory';
 import { SessionController } from '../modules/session/presentation/http/controllers/session.controller';
-import { FakeTranslationProvider } from '../modules/chat/providers/implementations/fake-translation.provider';
-import { SendMessageUseCaseFactory } from '../modules/chat/useCases/factories/SendMessageUseCaseFactory';
-import { ChatGateway } from '../modules/chat/gateways/chat.gateway';
+import { FakeTranslationProvider } from '../modules/chat/infra/providers/implementations/fake-translation.provider';
+import { SendMessageUseCaseFactory } from '../modules/chat/application/use-cases/factories/SendMessageUseCaseFactory';
+import { ChatGateway } from '../modules/chat/presentation/websocket/chat.gateway';
 import { ParticipantReaderAdapter } from './adapters/participant-reader.adapter';
 
 export function createContainer(io: Server): {

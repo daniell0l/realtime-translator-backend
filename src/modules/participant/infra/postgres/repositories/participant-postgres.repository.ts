@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
-import { IParticipantRepository } from '../../../repositories/participant-repository.interface';
-import { ParticipantEntity } from '../../../entities/participant.entity';
+import { IParticipantRepository } from '../../../domain/repositories/participant-repository.interface';
+import { ParticipantEntity } from '../../../domain/entities/participant.entity';
 import {
   CREATE_PARTICIPANT_QUERY,
   FIND_PARTICIPANT_BY_ID_QUERY,

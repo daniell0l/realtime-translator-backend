@@ -1,8 +1,8 @@
 import { Pool } from 'pg';
-import { SessionEntity } from '../../../entities/session.entity';
-import { SessionMode } from '../../../types/session-mode';
-import { SessionStatus } from '../../../types/session-status';
-import { ISessionRepository } from '../../../repositories/session-repository.interface';
+import { SessionEntity } from '../../../domain/entities/session.entity';
+import { SessionMode } from '../../../domain/value-objects/session-mode';
+import { SessionStatus } from '../../../domain/value-objects/session-status';
+import { ISessionRepository } from '../../../domain/repositories/session-repository.interface';
 import {
   CREATE_SESSION_QUERY,
   FIND_SESSION_BY_CODE_QUERY,

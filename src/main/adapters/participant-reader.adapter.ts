@@ -1,5 +1,5 @@
-import { ParticipantReaderPort } from '../../modules/chat/providers/participant-reader.port';
-import { IParticipantRepository } from '../../modules/participant/repositories/participant-repository.interface';
+import { ParticipantReaderPort } from '../../modules/chat/application/ports/participant-reader.port';
+import { IParticipantRepository } from '../../modules/participant/domain/repositories/participant-repository.interface';
 
 export class ParticipantReaderAdapter implements ParticipantReaderPort {
   constructor(private readonly participantRepository: IParticipantRepository) {}

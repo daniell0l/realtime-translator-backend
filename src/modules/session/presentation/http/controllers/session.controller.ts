@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { CreateSessionUseCase } from '../../../useCases/create-session.use-case';
-import { FindSessionByCodeUseCase } from '../../../useCases/find-session-by-code.use-case';
-import { JoinSessionDto } from '../../../types/dtos/join-session.dto';
-import { isSessionMode } from '../../../types/session-mode';
-import { CreateParticipantUseCase } from '../../../../participant/useCases/create-participant.use-case';
-import { ListParticipantsBySessionUseCase } from '../../../../participant/useCases/list-participants-by-session.use-case';
+import { CreateSessionUseCase } from '../../../application/use-cases/create-session.use-case';
+import { FindSessionByCodeUseCase } from '../../../application/use-cases/find-session-by-code.use-case';
+import { JoinSessionDto } from '../../../application/dtos/join-session.dto';
+import { isSessionMode } from '../../../domain/value-objects/session-mode';
+import { CreateParticipantUseCase } from '../../../../participant/application/use-cases/create-participant.use-case';
+import { ListParticipantsBySessionUseCase } from '../../../../participant/application/use-cases/list-participants-by-session.use-case';
 
 export class SessionController {
   constructor(

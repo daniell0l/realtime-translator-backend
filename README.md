@@ -11,26 +11,19 @@ src/
     migrations/                      # migrations versionadas
   modules/
     session/
-      entities/
-      repositories/
-      types/
-      useCases/
+      domain/
+      application/
       infra/
       presentation/
     participant/
-      entities/
-      repositories/
-      types/
-      useCases/
+      domain/
+      application/
       infra/
     chat/
-      entities/
-      repositories/
-      types/
-      providers/
-      useCases/
+      domain/
+      application/
       infra/
-      gateways/
+      presentation/
   shared/
     db.ts                            # conexao com banco + bootstrap de migrations
     config/
